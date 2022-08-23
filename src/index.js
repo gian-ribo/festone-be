@@ -1,9 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const commentService = require('./routes/api/commentService')
+const PORT = process.env.PORT || 3000
 
 const app = express()
-const port = 3000
 
 app
   .use(bodyParser.json())
@@ -11,4 +12,4 @@ app
   .get('/', (req, res) => {
     res.send('Ciaooone')
   })
-  .listen(port, () => console.log(`Now listening on port ${port}`))
+  .listen(PORT, () => console.log(`Now listening on port ${PORT}`))
