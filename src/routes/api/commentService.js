@@ -7,7 +7,7 @@ router
     res.send(`GET single comment with id: ${id}`)
   })
   .get('/', (req, res) => {
-    res.send(`GET all comments written`)
+    res.send('GET all comments written')
   })
   .post('/', (req, res) => {
     res.send(`POST with this body: ${req.body.text}`)
