@@ -3,11 +3,10 @@ const router = Router()
 const { sql } = require('slonik')
 const basicAuth = require('express-basic-auth')
 
-const USERNAME = process.env.USERNAME
-const PASSWORD = process.env.PASSWORD
-
 const users = {}
-users[USERNAME] = PASSWORD
+users[process.env.USERNAME] = process.env.PASSWORD
+
+const basic = basicAuth({ challenge: true, users: users })
 
 const fetchComments = async (req, res, pool) => {
   return await pool.any(sql`
@@ -49,13 +48,13 @@ const createComment = async (req, res, pool) => {
 }
 
 module.exports = pool => router
-  .get('/:id',  basicAuth({ challenge: true, users: users }), async (req, res) => {
+  .get('/:id',  basic, async (req, res) => {
     const rows = await fetchComment(req, res, pool)
 
     res.setHeader('content-type', 'application/json')
     res.send(rows)
   })
-  .get('/',  basicAuth({ challenge: true, users: users }), async (req, res) => {
+  .get('/',  basic, async (req, res) => {
     const rows = await fetchComments(req, res, pool)
 
     res.setHeader('content-type', 'application/json')
